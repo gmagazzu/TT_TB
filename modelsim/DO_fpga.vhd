@@ -10,7 +10,7 @@ use unisim.vcomponents.all;
 use unimacro.vcomponents.all;
 use hdlmacro.hdlmacro.all;
 
-entity DO_chip is
+entity DO_fpga is
    port(
   
    clk   : in std_logic;
@@ -33,9 +33,9 @@ entity DO_chip is
 	
 	);
 
-end DO_chip;
+end DO_fpga;
 
-architecture DO_chip_architecture of DO_chip is
+architecture DO_fpga_architecture of DO_fpga is
 
 constant NL : integer := 6;
 constant NFE : integer := 8;
@@ -48,7 +48,7 @@ signal data_0_en, data_0_rst, data_0_ld, stub_0_rst, stub_0_ld, stubv_0_rst : st
 signal data_1_en, data_1_rst, data_1_ld, stub_1_rst, stub_1_ld, stubv_1_rst : std_logic;
 signal out_sel : std_logic;
 
-signal ts, reg_ts : integer := 0;
+signal ts, ts_d1, ts_d2 : integer := 0;
 
 type data_array is array (7 downto 0) of std_logic_vector(29 downto 0);
 signal data_0, data_1 : data_array;
@@ -73,10 +73,12 @@ fsm_state_regs : process (next_state,ts,rst,clk)
 
   begin
     if (rst = '1') then
-      reg_ts <= 0;
+      ts_d1 <= 0;
+      ts_d2 <= 0;
       current_state <= S0_0;
     elsif rising_edge(clk) then
-      reg_ts <= ts;
+      ts_d1 <= ts;
+      ts_d2 <= ts_d1;
       current_state <= next_state;
     end if;
 
@@ -705,36 +707,36 @@ begin
     
 end process;
 
-out_mux: process (stub_vec_0,stub_vec_1,reg_ts,out_sel)
+out_mux: process (stub_vec_0,stub_vec_1,ts_d2,out_sel)
 
 begin
   
   if (out_sel = '0') then
-    stub_d00 <= stub_vec_0(reg_ts)(0);
-    stub_d01 <= stub_vec_0(reg_ts)(1);
-    stub_d02 <= stub_vec_0(reg_ts)(2);
-    stub_d03 <= stub_vec_0(reg_ts)(3);
-    stub_d04 <= stub_vec_0(reg_ts)(4);
-    stub_d05 <= stub_vec_0(reg_ts)(5);
-    stub_d06 <= stub_vec_0(reg_ts)(6);
-    stub_d07 <= stub_vec_0(reg_ts)(7);
-    stub_d08 <= stub_vec_0(reg_ts)(8);
-    stub_d09 <= stub_vec_0(reg_ts)(9);
-    stub_d10 <= stub_vec_0(reg_ts)(10);
-    stub_d11 <= stub_vec_0(reg_ts)(11);
+    stub_d00 <= stub_vec_0(ts_d2)(0);
+    stub_d01 <= stub_vec_0(ts_d2)(1);
+    stub_d02 <= stub_vec_0(ts_d2)(2);
+    stub_d03 <= stub_vec_0(ts_d2)(3);
+    stub_d04 <= stub_vec_0(ts_d2)(4);
+    stub_d05 <= stub_vec_0(ts_d2)(5);
+    stub_d06 <= stub_vec_0(ts_d2)(6);
+    stub_d07 <= stub_vec_0(ts_d2)(7);
+    stub_d08 <= stub_vec_0(ts_d2)(8);
+    stub_d09 <= stub_vec_0(ts_d2)(9);
+    stub_d10 <= stub_vec_0(ts_d2)(10);
+    stub_d11 <= stub_vec_0(ts_d2)(11);
   elsif (out_sel = '1') then
-    stub_d00 <= stub_vec_1(reg_ts)(0);
-    stub_d01 <= stub_vec_1(reg_ts)(1);
-    stub_d02 <= stub_vec_1(reg_ts)(2);
-    stub_d03 <= stub_vec_1(reg_ts)(3);
-    stub_d04 <= stub_vec_1(reg_ts)(4);
-    stub_d05 <= stub_vec_1(reg_ts)(5);
-    stub_d06 <= stub_vec_1(reg_ts)(6);
-    stub_d07 <= stub_vec_1(reg_ts)(7);
-    stub_d08 <= stub_vec_1(reg_ts)(8);
-    stub_d09 <= stub_vec_1(reg_ts)(9);
-    stub_d10 <= stub_vec_1(reg_ts)(10);
-    stub_d11 <= stub_vec_1(reg_ts)(11);
+    stub_d00 <= stub_vec_1(ts_d2)(0);
+    stub_d01 <= stub_vec_1(ts_d2)(1);
+    stub_d02 <= stub_vec_1(ts_d2)(2);
+    stub_d03 <= stub_vec_1(ts_d2)(3);
+    stub_d04 <= stub_vec_1(ts_d2)(4);
+    stub_d05 <= stub_vec_1(ts_d2)(5);
+    stub_d06 <= stub_vec_1(ts_d2)(6);
+    stub_d07 <= stub_vec_1(ts_d2)(7);
+    stub_d08 <= stub_vec_1(ts_d2)(8);
+    stub_d09 <= stub_vec_1(ts_d2)(9);
+    stub_d10 <= stub_vec_1(ts_d2)(10);
+    stub_d11 <= stub_vec_1(ts_d2)(11);
   else
     stub_d00 <= (others => 'Z');
     stub_d01 <= (others => 'Z');
@@ -752,4 +754,4 @@ begin
 
 end process;
 	
-end DO_chip_architecture;
+end DO_fpga_architecture;

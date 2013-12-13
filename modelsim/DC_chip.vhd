@@ -140,8 +140,8 @@ fsm_comb_logic : process(current_state)
         data_0_rst <= '0'; 
         data_0_ld <= '0'; 
         data_1_en <= '0'; 
-        data_1_rst <= '0'; 
-        data_1_ld <= '0'; 
+        data_1_rst <= '1'; 
+        data_1_ld <= '1'; 
         out_sel <= '0'; 
         next_state <= S0_1;
 
@@ -214,8 +214,8 @@ fsm_comb_logic : process(current_state)
       when S0_7 =>
         ts <= 7; 
         data_0_en <= '1'; 
-        data_0_rst <= '1'; 
-        data_0_ld <= '1'; 
+        data_0_rst <= '0'; 
+        data_0_ld <= '0'; 
         data_1_en <= '0'; 
         data_1_rst <= '0'; 
         data_1_ld <= '0'; 
@@ -225,8 +225,8 @@ fsm_comb_logic : process(current_state)
       when S1_0 =>
         ts <= 0; 
         data_0_en <= '0'; 
-        data_0_rst <= '0'; 
-        data_0_ld <= '0'; 
+        data_0_rst <= '1'; 
+        data_0_ld <= '1'; 
         data_1_en <= '1'; 
         data_1_rst <= '0'; 
         data_1_ld <= '0'; 
@@ -305,8 +305,8 @@ fsm_comb_logic : process(current_state)
         data_0_rst <= '0'; 
         data_0_ld <= '0'; 
         data_1_en <= '1'; 
-        data_1_rst <= '1'; 
-        data_1_ld <= '1'; 
+        data_1_rst <= '0'; 
+        data_1_ld <= '0'; 
         out_sel <= '0'; 
         next_state <= S0_0;
 
@@ -317,8 +317,8 @@ fsm_comb_logic : process(current_state)
         data_0_rst <= '0'; 
         data_0_ld <= '0'; 
         data_1_en <= '1'; 
-        data_1_rst <= '1'; 
-        data_1_ld <= '1'; 
+        data_1_rst <= '0'; 
+        data_1_ld <= '0'; 
         out_sel <= '0'; 
         next_state <= S1_0;
 
